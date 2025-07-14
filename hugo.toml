@@ -16,8 +16,8 @@ shortname = "yourdiscussshortname"
 style = "github-dark"
 
 [params]
-  author = "Aleksanddr Gyumushyan"
-  info = "Junior Software developer"
+  author = "Aleksandr Gyumushyan"
+  info = "Junior Software Developer"
   description = "Aleksandr Gyumushyan's personal website"
   keywords = "blog,developer,personal"
   avatarurl = "images/avatar.jpg"
@@ -52,21 +52,29 @@ style = "github-dark"
   url = "https://github.com/AlexG28/"
 [[params.social]]
   name = "LinkedIn"
-  icon = "fa-brands fa-gitlab fa-2x"
+  icon = "fa-brands fa-linkedin fa-2x"
   weight = 2
   url = "https://www.linkedin.com/in/aleksandrgyumushyan/"
 [[params.social]]
   name = "Resume"
-  icon = "fa-brands fa-x-twitter fa-2x"
+  icon = "fa-solid fa-file-pdf fa-2x"
   weight = 3
   url = "https://drive.google.com/file/d/1Rf459_zBqk_thjVEMFyjHaunmsJ7iVYR/view?usp=sharing"
 
 # Menu links
 [[menu.main]]
-  name = "Projects"
+  name = "Blog"
   weight = 1
-  url  = "projects/"
+  url  = "posts/"
+[[menu.main]]
+  name = "Projects"
+  weight = 2
+  url = "projects/"
+[[menu.main]]
+  name = "Photography"
+  weight = 3
+  url = "photography/"
 [[menu.main]]
   name = "About"
-  weight = 2
+  weight = 4
   url = "about/"
