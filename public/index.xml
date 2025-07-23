@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aleksandr Gyumushyan</title><link>https://AlexG28.github.io/portfolio/</link><description>Recent content on Aleksandr Gyumushyan</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 15 Jan 2024 10:00:00 +0100</lastBuildDate><atom:link href="https://AlexG28.github.io/portfolio/index.xml" rel="self" type="application/rss+xml"/><item><title>About Me</title><link>https://AlexG28.github.io/portfolio/about/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://AlexG28.github.io/portfolio/about/</guid><description>&lt;h1 id="aleksandr-gyumushyan">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aleksandr Gyumushyan</title><link>https://alexg28.github.io/portfolio/</link><description>Recent content on Aleksandr Gyumushyan</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 15 Jan 2024 10:00:00 +0100</lastBuildDate><atom:link href="https://alexg28.github.io/portfolio/index.xml" rel="self" type="application/rss+xml"/><item><title>About Me</title><link>https://alexg28.github.io/portfolio/about/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://alexg28.github.io/portfolio/about/</guid><description>&lt;h1 id="aleksandr-gyumushyan">
  Aleksandr Gyumushyan
  &lt;a class="heading-link" href="#aleksandr-gyumushyan">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h1>
-&lt;p>&lt;img src="https://AlexG28.github.io/portfolio/images/avatar.jpg" alt="Profile Photo">&lt;/p>
+&lt;p>&lt;img src="https://alexg28.github.io/portfolio/images/avatar.jpg" alt="Profile Photo">&lt;/p>
 &lt;h2 id="about-me">
  About Me
  &lt;a class="heading-link" href="#about-me">
@@ -68,7 +68,7 @@
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h2>
-&lt;p>I&amp;rsquo;m currently focused on building robust, scalable applications that can handle real-world challenges. My experience includes:&lt;/p></description></item><item><title>My First Blog Post: Building a Microservice Architecture</title><link>https://AlexG28.github.io/portfolio/posts/my-first-blog-post/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://AlexG28.github.io/portfolio/posts/my-first-blog-post/</guid><description>&lt;h1 id="building-a-microservice-architecture">
+&lt;p>I&amp;rsquo;m currently focused on building robust, scalable applications that can handle real-world challenges. My experience includes:&lt;/p></description></item><item><title>My First Blog Post: Building a Microservice Architecture</title><link>https://alexg28.github.io/portfolio/posts/my-first-blog-post/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://alexg28.github.io/portfolio/posts/my-first-blog-post/</guid><description>&lt;h1 id="building-a-microservice-architecture">
  Building a Microservice Architecture
  &lt;a class="heading-link" href="#building-a-microservice-architecture">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -83,7 +83,7 @@
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h2>
-&lt;p>Our team needed to build a system that could handle thousands of concurrent users while maintaining high availability and low latency. After evaluating different architectural patterns, we decided to go with a microservice approach using Go and Docker.&lt;/p></description></item><item><title>Photography</title><link>https://AlexG28.github.io/portfolio/photography/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://AlexG28.github.io/portfolio/photography/</guid><description>&lt;h1 id="photography-portfolio">
+&lt;p>Our team needed to build a system that could handle thousands of concurrent users while maintaining high availability and low latency. After evaluating different architectural patterns, we decided to go with a microservice approach using Go and Docker.&lt;/p></description></item><item><title>Photography</title><link>https://alexg28.github.io/portfolio/photography/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://alexg28.github.io/portfolio/photography/</guid><description>&lt;h1 id="photography-portfolio">
  Photography Portfolio
  &lt;a class="heading-link" href="#photography-portfolio">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -98,7 +98,7 @@
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h2>
-&lt;p>&lt;img src="https://AlexG28.github.io/portfolio/images/street-photography.jpg" alt="Street Scene">&lt;/p>
+&lt;p>&lt;img src="https://alexg28.github.io/portfolio/images/street-photography.jpg" alt="Street Scene">&lt;/p>
 &lt;p>&lt;em>Capturing the essence of urban life through candid moments and architectural details.&lt;/em>&lt;/p>
 &lt;h2 id="landscape-photography">
  Landscape Photography
@@ -107,8 +107,8 @@
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h2>
-&lt;p>&lt;img src="https://AlexG28.github.io/portfolio/images/landscape-photography.jpg" alt="Mountain Landscape">&lt;/p>
-&lt;p>&lt;em>Exploring the natural world and finding beauty in the simplest of scenes.&lt;/em>&lt;/p></description></item><item><title>Projects</title><link>https://AlexG28.github.io/portfolio/projects/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://AlexG28.github.io/portfolio/projects/</guid><description>&lt;h1 id="projects">
+&lt;p>&lt;img src="https://alexg28.github.io/portfolio/images/landscape-photography.jpg" alt="Mountain Landscape">&lt;/p>
+&lt;p>&lt;em>Exploring the natural world and finding beauty in the simplest of scenes.&lt;/em>&lt;/p></description></item><item><title>Projects</title><link>https://alexg28.github.io/portfolio/projects/</link><pubDate>Mon, 15 Jan 2024 10:00:00 +0100</pubDate><guid>https://alexg28.github.io/portfolio/projects/</guid><description>&lt;h1 id="projects">
  Projects
  &lt;a class="heading-link" href="#projects">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
