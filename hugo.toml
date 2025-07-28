@@ -7,3 +7,37 @@ theme = 'hugo-coder'
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+
+[[params.social]]
+name = "LinkedIn"
+icon = "fa-brands fa-linkedin fa-2x"
+weight = 4
+url = "https://www.linkedin.com/in/aleksandrgyumushyan/"
+
+[[params.social]]
+name = "Github"
+icon = "fa-brands fa-github fa-2x"
+weight = 4
+url = "https://github.com/AlexG28"
+
+[params]
+author = "Aleksandr Gyumushyan"
+description = "John Doe's personal website"
+colorScheme = "auto"
+
+
+[[languages.en.menu.main]]
+name = "About"
+weight = 1
+url = "about/"
+
+[[languages.en.menu.main]]
+name = "Blog"
+weight = 2
+url = "posts/"
+
+[[languages.en.menu.main]]
+name = "Photography"
+weight = 3
+url = "photography/"
