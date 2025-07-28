@@ -25,6 +25,8 @@ url = "https://github.com/AlexG28"
 author = "Aleksandr Gyumushyan"
 description = "John Doe's personal website"
 colorScheme = "auto"
+avatarURL = "images/avatar.jpg"
+
 
 
 [[languages.en.menu.main]]
@@ -41,3 +43,4 @@ url = "posts/"
 name = "Photography"
 weight = 3
 url = "photography/"
+
