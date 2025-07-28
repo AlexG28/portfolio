@@ -1,6 +1,6 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Aleksandr Gyumushyan'
 theme = 'hugo-coder'
 
 
@@ -37,7 +37,7 @@ url = "about/"
 [[languages.en.menu.main]]
 name = "Blog"
 weight = 2
-url = "posts/"
+url = "blog/"
 
 [[languages.en.menu.main]]
 name = "Photography"
