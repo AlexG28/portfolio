@@ -7,28 +7,28 @@ title = 'Photography'
 <div class="photo-gallery">
   <div class="gallery-grid">
     <div class="gallery-item">
-      <img src="/images/photography/cliffs.jpg" alt="Sunset over mountains" loading="lazy" onclick="openModal(this)">
+      <img src="/images/cliffs.jpg" alt="Sunset over mountains" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/desert.jpg" alt="Urban street photography" loading="lazy" onclick="openModal(this)">
+      <img src="/images/desert.jpg" alt="Urban street photography" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/dubai.jpg" alt="Portrait in natural light" loading="lazy" onclick="openModal(this)">
+      <img src="/images/dubai.jpg" alt="Portrait in natural light" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/sunset.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/images/sunset.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/manhattan.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/images/manhattan.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/new_york.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/images/new_york.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/night_sky.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/images/night_sky.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/images/photography/palm.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/images/palm.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
     </div>
   </div>
 </div>
