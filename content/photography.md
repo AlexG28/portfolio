@@ -7,4 +7,4 @@ title = 'Photography'
 
 hello photography!!!
 
-{{< figure src="/images/cliffs.jpg" title="cliffs" width="400">}}
+{{< figure src="images/cliffs.jpg" title="cliffs" width="400">}}
