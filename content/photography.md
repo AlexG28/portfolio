@@ -7,28 +7,28 @@ title = 'Photography'
 <div class="photo-gallery">
   <div class="gallery-grid">
     <div class="gallery-item">
-      <img src="/portfolio/images/cliffs.jpg" alt="Sunset over mountains" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/cliffs.jpg" alt="Lion's Head lookout, Bruce Peninsula" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/desert.jpg" alt="Urban street photography" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/desert.jpg" alt="Desert an hour's drive from Dubai" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/dubai.jpg" alt="Portrait in natural light" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/dubai.jpg" alt="Dubai from Palm Jumeirah" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/sunset.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/sunset.jpg" alt="Lake Wilcox" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/manhattan.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/manhattan.jpg" alt="Empire State from Rockefeller Center" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/new_york.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/new_york.jpg" alt="Midtown from Brooklyn Bridge" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/night_sky.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/night_sky.jpg" alt="Our home galaxy, Algonquin Park" loading="lazy" onclick="openModal(this)">
     </div>
     <div class="gallery-item">
-      <img src="/portfolio/images/palm.jpg" alt="Abstract architecture" loading="lazy" onclick="openModal(this)">
+      <img src="/portfolio/images/palm.jpg" alt="Palm Jumeirah" loading="lazy" onclick="openModal(this)">
     </div>
   </div>
 </div>
