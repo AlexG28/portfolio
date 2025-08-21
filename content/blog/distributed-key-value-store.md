@@ -91,6 +91,8 @@ func (kf *kvFsm) Apply(log *raft.Log) any {
 
 In the implementation of the apply function, the code simply takes the latest log, attempts to decode it from json into an existing struct and performs the appropriate operation on the store (set or delete), based on the type of struct it could be decoded into. Otherwise, it errors out.
 
+Of note is the fact that Raft always has a singular leader node, hence its "leader election". The core design principle of Raft is that only the leader node is allowed to make changes to the log. This means a regular node can't write to the log, only read from it. If the leader node fails, a new leader will be chosen automatically. This is done to ensure there is one singular point of authority on the log, which simplifies the system and achives strong consistency. 
+
 
 ### `gossip.go` 
 
@@ -145,6 +147,57 @@ To demonstrate this system in a realistic and useful manner, I've decided to set
 3. An http service for each pod to expose its http port to the outside world, which in this case is the terminal of the user. We need this as you can't just send http requests to a pod, you need a way to connect it. 
 
 
+### Instructions for setup
+
+You can get simplified instructions for setting everything up [here](https://github.com/AlexG28/keyvalue/blob/main/README.md).
+These instructions are specifically made for Mac. The only difference with windows is setting up K8s to run on Minikube. The instructions for that can be found [here](https://minikube.sigs.k8s.io/docs/drivers/hyperv/).
+
+1. We need to have Docker, Kubernetes (Kubectl), and Minikube installed on your system. In addition, we need socker_vmnet and qemu. Follow [this](https://minikube.sigs.k8s.io/docs/drivers/qemu/#socket_vmnet) guide for more details. 
+2. To simplify the instructions in the [README.md](https://github.com/AlexG28/keyvalue/blob/main/README.md), setup minikubes, connect it to its own version of docker, build the image, and deploy the `deployment.yaml` to minikubes. 
+3. To check if you have Minikubes setup correctly, run `minikube docker-env` and it should show something like: 
+```bash
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.105.15:2376"
+export DOCKER_CERT_PATH="/Users/aleksandrgyumushyan/.minikube/certs"
+export MINIKUBE_ACTIVE_DOCKERD="minikube"
+
+# To point your shell to minikube's docker-daemon, run:
+# eval $(minikube -p minikube docker-env)
+```
+
+Note the `DOCKER_HOST` value should look exactly like that, with slightly different port or IP values. 
+
+A correctly deployed cluster should look something like this: 
+```bash
+% keyvalue % kubectl get pods
+NAME        READY   STATUS    RESTARTS   AGE
+kvstore-0   1/1     Running   0          13m
+kvstore-1   1/1     Running   0          13m
+kvstore-2   1/1     Running   0          13m
+```
+
+You can get the IP addresses of each pod by running: 
+```bash
+% minikube service kvstore-0-http --url
+http://192.168.105.15:30080
+```
+And then test that the leader node can indeed Set and Get values like so: 
+```bash
+% curl "http://192.168.105.15:30080/Set/hello/world"
+Set key 'hello' to value 'world'
+```
+Other nodes in the cluster should now have the same IP address but a different port such as 30081 or 30082. 
+You can test out if indeed verything worked by running: 
+```bash
+% curl "http://192.168.105.15:30082/Get/hello"
+world
+```
+If you got "world" as the output, then congratulations, we have successfully built a distributed key value store and deployed it on a local Kubernetes cluster!
+
+Other useful commands here include: 
+- `kubectl logs <pod-name>` to inspect the console output of an individual pod, which is very useful for debugging. Pod names are found when running `kubectl get pods`
+- `kubectl delete -f deployment.yaml` to remove the deployment 
+- `minikube delete` to stop minikube 
 
 ## Potential future changes 
 
