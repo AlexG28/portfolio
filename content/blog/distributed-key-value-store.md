@@ -10,6 +10,8 @@ title = 'Distributed Key Value Store'
 This post explains how to build a simple distributed key value store in Golang, and how to locally 
 deploy a simple cluster in Kubernetes that can demonstrate some of the algorithms that it uses. 
 
+You can find the repo [here](https://github.com/AlexG28/keyvalue)
+
 Note: We will not be writing our own implementation of the algorithms that get us a good distributed
 key value store. We will be using libraries such as [Memberlist](https://github.com/hashicorp/memberlist) and [Raft](https://github.com/hashicorp/raft) by Hashicorp. This post details
 how to actually implement them in your project, as well as why you may want to use them, plus some Kubernetes along the way.
