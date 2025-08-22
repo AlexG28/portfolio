@@ -26,6 +26,12 @@ icon = "fa-brands fa-github fa-2x"
 weight = 4
 url = "https://github.com/AlexG28"
 
+[[params.social]]
+name = "Resume"
+icon = "fa-solid fa-file-pdf fa-2x"
+weight = 5
+url = "/resume.pdf"
+
 [params]
 author = "Aleksandr Gyumushyan"
 description = "Aleksandr Gyumushyan's Personal Website"
