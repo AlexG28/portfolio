@@ -154,7 +154,7 @@ To demonstrate this system in a realistic and useful manner, I've decided to set
 You can get simplified instructions for setting everything up [here](https://github.com/AlexG28/keyvalue/blob/main/README.md).
 These instructions are specifically made for Mac. The only difference with windows is setting up K8s to run on Minikube. The instructions for that can be found [here](https://minikube.sigs.k8s.io/docs/drivers/hyperv/).
 
-1. We need to have Docker, Kubernetes (Kubectl), and Minikube installed on your system. In addition, we need socker_vmnet and qemu. Follow [this](https://minikube.sigs.k8s.io/docs/drivers/qemu/#socket_vmnet) guide for more details. 
+1. We need to have Docker, Kubernetes (Kubectl), and Minikube installed on your system. In addition, we need socket_vmnet and qemu. Follow [this](https://minikube.sigs.k8s.io/docs/drivers/qemu/#socket_vmnet) guide for more details. 
 2. To simplify the instructions in the [README.md](https://github.com/AlexG28/keyvalue/blob/main/README.md), setup minikubes, connect it to its own version of docker, build the image, and deploy the `deployment.yaml` to minikubes. 
 3. To check if you have Minikubes setup correctly, run `minikube docker-env` and it should show something like: 
 ```bash
