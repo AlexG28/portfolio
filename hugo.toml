@@ -30,7 +30,7 @@ url = "https://github.com/AlexG28"
 name = "Resume"
 icon = "fa-solid fa-file-pdf fa-2x"
 weight = 5
-url = "/portfolio/resume.pdf"
+url = "https://drive.google.com/file/d/1JTM_hVmcqdZ3c0N4OCGtvfnJT5scDx6m/view?usp=sharing"
 
 [params]
 author = "Aleksandr Gyumushyan"
