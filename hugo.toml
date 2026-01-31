@@ -1,4 +1,4 @@
-baseURL = 'https://aleksandrgyumushyan.com'
+baseURL = 'https://aleksandrgyumushyan.com/'
 languageCode = 'en-us'
 title = 'Aleksandr Gyumushyan'
 theme = 'hugo-coder'
