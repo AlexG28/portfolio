@@ -4,10 +4,16 @@ draft = false
 title = 'About'
 +++
 
-Hello! I'm a recent Computer Science graduate from **Toronto Metropolitan University**, where I graduated with distinction. I am a passionate software developer eager to contribute my skills to a new team, with a particular interest in backend systems and developer tools.
+hi there! 
 
-My experience includes **16 months of internship work at Geotab**, where I rotated through two distinct roles.
+I recently finished my Bachelors of Science in Computer Science at Toronto Metropolitcan university.
 
-I spent the majority of my time as a **Tools Developer**, where I designed and built a Python CLI tool. This tool was essential for transforming raw vehicle data into formats used by various internal teams, allowing me to gain experience with **Python, Protobuf and Google Cloud Platform (GCP)**.
+I am currently working at LDA Technologies, where I am developing internal tooling to help my coworkers and customers have a beautiful and intuitive user experience interacting with our products. 
 
-Later, I transitioned to a **Backend Developer** role for four months. This was a valuable opportunity to witness firsthand what it takes to scale a high-traffic backend system. In this role, I worked with technologies like **C#, Docker, Redis, Kubernetes, and Terraform** to help the team handle hundreds of requests per second.
+I have 16 months of internship experience at Geotab, split over two teams and two projects. 
+
+My strongest languages are Go, Python and Java although I am currently learning Zig and maybe Rust in the near future.  
+
+In my free time, I like to explore concepts related to distributed systems and performance. You can read about some of my learnings and side projects on [my blog](/blog).
+
+Some of my current interests and hobbies include following the AI industry, running, watching UFC and F1, [photography](/photography) and travel. 
