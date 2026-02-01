@@ -1,0 +1,13 @@
+{{- $src := .Get "src" -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $img := resources.Get $src -}}
+{{- if $img -}}
+  {{- $webpp := $img.Resize "800x webp q75" -}}
+  {{- $avif := $img.Resize "800x avif q75" -}}
+  {{- $fallback := $img.Resize "800x q75" -}}
+  <picture>
+    <source srcset="{{ $avif.Permalink }}" type="image/avif">
+    <source srcset="{{ $webpp.Permalink }}" type="image/webp">
+    <img src="{{ $fallback.Permalink }}" alt="{{ $alt }}" loading="lazy" onclick="openModal(this)">
+  </picture>
+{{- end -}}

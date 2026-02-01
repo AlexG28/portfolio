@@ -1,0 +1,22 @@
+Watching for changes in /Users/aleksandrgyumushyan/Developer/portfolio/archetypes, /Users/aleksandrgyumushyan/Developer/portfolio/assets/images, /Users/aleksandrgyumushyan/Developer/portfolio/content/blog, /Users/aleksandrgyumushyan/Developer/portfolio/data, /Users/aleksandrgyumushyan/Developer/portfolio/i18n, /Users/aleksandrgyumushyan/Developer/portfolio/layouts/shortcodes, /Users/aleksandrgyumushyan/Developer/portfolio/static/images, /Users/aleksandrgyumushyan/Developer/portfolio/themes/hugo-coder/archetypes, /Users/aleksandrgyumushyan/Developer/portfolio/themes/hugo-coder/assets/{js,scss}, /Users/aleksandrgyumushyan/Developer/portfolio/themes/hugo-coder/i18n, ... and 2 more
+Watching for config changes in /Users/aleksandrgyumushyan/Developer/portfolio/hugo.toml, /Users/aleksandrgyumushyan/Developer/portfolio/themes/hugo-coder/hugo.toml
+Start building sites … 
+hugo v0.154.5+extended+withdeploy darwin/arm64 BuildDate=2026-01-11T20:53:23Z VendorInfo=Homebrew
+
+
+                  │ EN 
+──────────────────┼────
+ Pages            │ 13 
+ Paginator pages  │  0 
+ Non-page files   │  0 
+ Static files     │ 18 
+ Processed images │  0 
+ Aliases          │  1 
+ Cleaned          │  0 
+
+Built in 69 ms
+Environment: "development"
+Serving pages from disk
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at //:1313/ (bind address 127.0.0.1) 
+Press Ctrl+C to stop

@@ -7,28 +7,28 @@ title = 'Photography'
 <div class="photo-gallery">
   <div class="gallery-grid">
     <div class="gallery-item">
-      <img src="/images/cliffs.jpg" alt="Lion's Head lookout, Bruce Peninsula" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/cliffs.jpg" alt="Lion's Head lookout, Bruce Peninsula" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/desert.jpg" alt="Desert an hour's drive from Dubai" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/desert.jpg" alt="Desert an hour's drive from Dubai" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/dubai.jpg" alt="Dubai from Palm Jumeirah" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/dubai.jpg" alt="Dubai from Palm Jumeirah" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/sunset.jpg" alt="Lake Wilcox" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/sunset.jpg" alt="Lake Wilcox" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/manhattan.jpg" alt="Empire State from Rockefeller Center" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/manhattan.jpg" alt="Empire State from Rockefeller Center" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/new_york.jpg" alt="Midtown from Brooklyn Bridge" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/new_york.jpg" alt="Midtown from Brooklyn Bridge" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/night_sky.jpg" alt="Our home galaxy, Algonquin Park" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/night_sky.jpg" alt="Our home galaxy, Algonquin Park" >}}
     </div>
     <div class="gallery-item">
-      <img src="/images/palm.jpg" alt="Palm Jumeirah" loading="lazy" onclick="openModal(this)">
+{{< photo src="images/palm.jpg" alt="Palm Jumeirah" >}}
     </div>
   </div>
 </div>
