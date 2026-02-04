@@ -7,6 +7,12 @@ theme = 'hugo-coder'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    noClasses = true
+    style = "monokai"
 
 
 [caches]
@@ -38,7 +44,6 @@ author = "Aleksandr Gyumushyan"
 description = "Aleksandr Gyumushyan's Personal Website"
 colorScheme = "auto"
 avatarURL = "images/avatar.jpg"
-
 
 
 [[languages.en.menu.main]]

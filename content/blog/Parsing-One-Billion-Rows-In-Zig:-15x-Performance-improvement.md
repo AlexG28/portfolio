@@ -146,9 +146,9 @@ pub fn main() !void {
 
 ```
 
-The flow of the program is very simple. Open the file, read its contents into a byte array with an allocator, and parse it. The parser splits this giant byte array by “\n” and each subarray by “;”. We then use the city as a key to a hashmap, where the value is a struct, containing min, max, sum and count. At the end we get all the keys, sort them, and print their corresponding values. 
+The flow of the program is very simple. Open the file, read its contents into a byte array with an allocator, and parse it. The parser splits this giant byte array by “\n” and each subarray by “;”. I then use the city as a key to a hashmap, where the value is a struct, containing min, max, sum and count. At the end I get all the keys, sort them, and print their corresponding values. 
 
-Examining the time, we can clearly see that the program spends the vast majority of its time waiting on the disk to open the file, so much so that the CPU is only actually doing something for 45 seconds out of the 2.5 minutes. This is very inefficient. 
+Examining the time, the program spends the vast majority of its time waiting on the disk to open the file, so much so that the CPU is only actually doing something for 45 seconds out of the 2.5 minutes. This is very inefficient. 
 ## Iteration 2: Memory mapping
 One way to reduce the system time here would be to use a concept in operating systems called memory mapping. 
 
@@ -174,7 +174,7 @@ fn open_file(path: []const u8) ![]u8 {
 ```
 
 Yields us enormous performance gains: `43.51s user, 2.79s system, 75% CPU, 1:01.57 total`
-This is exactly what we expect to see. User time virtually unchanged while system time (how much the program waits on system calls) dropped by ~90%. Wonderful. 
+This is exactly what should happen. User time virtually unchanged while system time (how much the program waits on system calls) dropped by ~90%. Wonderful. 
 
 ## Iteration 3: Manual parsing
 
@@ -183,11 +183,11 @@ Now that the bottleneck is firmly in the algorithm area, I needed more specific 
 {{< photo src="blog_2/iteration_2.png" alt="chart" >}}
 
 
-We can clearly see that std.mem.splitIterator is a massive bottleneck, taking up ~70% of the entire execution time. Additionally, hash map operations take up about 12% and parse_float takes up another 7%. The rest is insignificant in comparison. Clearly, the areas to focus on are to 1. speed up logic to find the delimiters and 2. reduce hash map accesses 3. fix float parsing. 
+std.mem.splitIterator is a massive bottleneck, taking up ~70% of the entire execution time. Additionally, hash map operations take up about 12% and parse_float takes up another 7%. The rest is insignificant in comparison. Clearly, the areas to focus on are to 1. speed up logic to find the delimiters and 2. reduce hash map accesses 3. fix float parsing. 
 
-To fix the delimiter bottleneck, we can do the following: keep a start and curr index. iterate over every byte individually, and check when curr hits a delimiter. We then know if arr[start..curr] is either a city or a temp. 
+To fix the delimiter bottleneck: keep a start and curr index. iterate over every byte individually, and check when curr hits a delimiter. I then know if arr[start..curr] is either a city or a temp. 
 
-While we are here, we can completely eliminate parse_float. By default, this func has to check for many edge cases which I know will never be hit. Every temp in the dataset is between -99.9 and 99.9. I can speed things up significantly by manually accumulating every additional digit into a temporary integer, and then dividing by 10 to get the true float temperature. 
+I can completely eliminate parse_float. By default, this func has to check for many edge cases which I know will never be hit. Every temp in the dataset is between -99.9 and 99.9. I can speed things up significantly by manually accumulating every additional digit into a temporary integer, and then dividing by 10 to get the true float temperature. 
 
 Lastly, I am needlessly making two calls to the hashmap, one to check if an item exists, and another to fill/update it. Zig has a built-in function called getOrPut() which eliminates this double hash. The new code looks something like this: 
 
@@ -341,7 +341,7 @@ Implementing these changes, results in surprisingly small gains: `12.61s user, 2
 User time is down significantly, as is CPU usage which means I am highly disk bound again.
 
 ## Iteration 5: Manual buffering
-I decided to remove mmap entirely and go back to manual buffering, this time using the latest zig reading interface and reading to a 8mb buffer. Mmap is a fundamentally reactive strategy where the OS fetches a page only when it needs to. This is great for databases where we do random reads and writes but not good enough to just go through one massive file once. 
+I decided to remove mmap entirely and go back to manual buffering, this time using the latest zig reading interface and reading to a 8mb buffer. Mmap is a fundamentally reactive strategy where the OS fetches a page only when it needs to. This is great for databases where it does random reads and writes but not good enough to just go through one massive file once. 
 
 ```zig
 fn open_file(path: []const u8, alloc: std.mem.Allocator) ![]u8 {
@@ -415,7 +415,7 @@ pub fn main() !void {
 
 The performance gains were immediately apparent: `11.84s user, 1.13s system, 98% CPU, 13.203 total`
 
-While user time didn’t go down that much, system time collapsed to about 1.1 seconds and CPU utilization shot up to 98% indicating that both the disk and the CPU were being used to the fullest. The only way to improve performance now is to dig into the algorithm and perform very specific optimizations. All the free lunch we get is over. 
+While user time didn’t go down that much, system time collapsed to about 1.1 seconds and CPU utilization shot up to 98% indicating that both the disk and the CPU were being used to the fullest. The only way to improve performance now is to dig into the algorithm and perform very specific optimizations.
 
 
 
@@ -457,13 +457,13 @@ I was able to shave off half a second by adding the `@setRuntimeSafety(false);` 
 
 
 ## Iteration 9: Faster semicolon detection + better hash function
-Now that all disk related bottlenecks are gone, we can re-examine the profiler: 
+Now that all disk related bottlenecks are gone, let's can re-examine the profiler: 
 
 {{< photo src="blog_2/iteration_8_1.png" alt="chart" >}}
 
 For the final push, I decided to tap into AI and redesign the hash function along with some parsing logic with the help of Claude Opus 4.5. 
 
-I (we?😂) was able to rewrite the city parsing logic to both find the “;” delimiter faster and hash the city in less instructions and in a more deterministic way. The better performance comes from grouping 8 bytes together into a 64 bit number, and using bitwise operations to find in which byte the delimiter is located. This is accomplished by XORing the 8 bytes with 0x3b3b3b3b3b3b3b3b (0x3b = “;”) and using the @ctz (count trailing zeroes) directive to get the index of where the delimiter is.  
+I was able to rewrite the city parsing logic to both find the “;” delimiter faster and hash the city in less instructions and in a more deterministic way. The better performance comes from grouping 8 bytes together into a 64 bit number, and using bitwise operations to find in which byte the delimiter is located. This is accomplished by XORing the 8 bytes with 0x3b3b3b3b3b3b3b3b (0x3b = “;”) and using the @ctz (count trailing zeroes) directive to get the index of where the delimiter is.  
 
 ```zig
 fn parse_chunk(contents: []u8, measurements: *MyHashmap) !void {
