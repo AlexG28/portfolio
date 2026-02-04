@@ -463,7 +463,9 @@ Now that all disk related bottlenecks are gone, let's can re-examine the profile
 
 For the final push, I decided to tap into AI and redesign the hash function along with some parsing logic with the help of Claude Opus 4.5. 
 
-I was able to rewrite the city parsing logic to both find the “;” delimiter faster and hash the city in less instructions and in a more deterministic way. The better performance comes from grouping 8 bytes together into a 64 bit number, and using bitwise operations to find in which byte the delimiter is located. This is accomplished by XORing the 8 bytes with 0x3b3b3b3b3b3b3b3b (0x3b = “;”) and using the @ctz (count trailing zeroes) directive to get the index of where the delimiter is.  
+I was able to rewrite the city parsing logic to both find the “;” delimiter faster and hash the city in less instructions and in a more deterministic way. The better performance comes from grouping 8 bytes together into a 64 bit number, and using bitwise operations to find in which byte the delimiter is located. This is accomplished by XORing the 8 bytes with 0x3b3b3b3b3b3b3b3b (0x3b = “;”) and using the @ctz (count trailing zeroes) directive to get the index of where the delimiter is. 
+
+As for the hash function, I used Wyhash, which is the default hash used in Zig. Wyhash is based on the [Wyhash project on GitHub](https://github.com/wangyi-fudan/wyhash). In this implementation, the custom hash logic is interleaved with the delimiter search to improve execution speed.
 
 ```zig
 fn parse_chunk(contents: []u8, measurements: *MyHashmap) !void {
@@ -517,9 +519,9 @@ fn parse_chunk(contents: []u8, measurements: *MyHashmap) !void {
         //.....continue to parsing temperature
 ```
 
-Note how the hashing and parsing are rightly interleaved.
+Note how the hashing and parsing are tightly interleaved.
 
-The end result i a ~15% reduction in user time: `9.34s user, 1.35s system, 98% CPU, 10.867 total`
+The end result is a ~15% reduction in user time: `9.34s user, 1.35s system, 98% CPU, 10.867 total`
 
 Final call stack: 
 
