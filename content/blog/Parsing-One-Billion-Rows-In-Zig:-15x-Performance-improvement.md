@@ -1,6 +1,6 @@
 +++
 date = '2026-02-02T22:24:12-05:00'
-draft = true
+draft = false 
 title = 'Parsing One Billion Rows in Zig: 15x Performance Improvement'
 +++
 
