@@ -158,11 +158,9 @@ Examining the time, the program spends the vast majority of its time waiting on 
 ## Iteration 2: Memory mapping
 One way to reduce the system time here would be to use a concept in operating systems called memory mapping. 
 
-In a conventional file read system, the OS has to allocate a page (4kb in size), fetch those 4 kilobytes from the disk (program is blocked while this is happening) into the kernel page cache, and then copy that page into the user space. So if I am fetching a 15GB, I have to do ~ 4 million system calls, not to mention all OS level copying overhead. Plus modern SSDs love reading massive chunks consecutively. 
-
 In a conventional file read, the OS fetches chunks from the disk into memory, but they first have to go into the kernel space, and only then copied to user space. 
 
-In contrast, memory mapping (mmap) works by virtually mapping the disk address space into main memory. Reading a byte from a page not in memory triggers a page fault and the OS goes to the disk (as opposed to a swap file in a regular demand paging page fault) to fetch it. This avoids that "copy" between the kernel and user space in a normal file read. 
+In contrast, memory mapping (mmap) works by virtually mapping the disk address space of the file you want to read into main memory. Reading a byte from a page not in memory triggers a page fault and the OS goes to the disk (as opposed to a swap file in a regular demand paging page fault) to fetch it. This avoids that "copy" between the kernel and user space in a normal file read. 
 
 Adding the following code:  
 
