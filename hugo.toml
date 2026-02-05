@@ -40,10 +40,11 @@ url = "https://drive.google.com/file/d/14CcxrKNzHnCQqOLFBFMgiFcj6GOEztar/view?us
        
 
 [params]
-author = "Aleksandr Gyumushyan"
-description = "Aleksandr Gyumushyan's Personal Website"
-colorScheme = "auto"
-avatarURL = "images/avatar.jpg"
+  author = "Aleksandr Gyumushyan"
+  description = "Aleksandr Gyumushyan's Personal Website"
+  colorScheme = "auto"
+  avatarURL = "images/avatar.jpg"
+  customCSS = ["css/custom.css"]
 
 
 [[languages.en.menu.main]]

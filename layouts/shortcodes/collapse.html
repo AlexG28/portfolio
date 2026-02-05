@@ -1,0 +1,6 @@
+<details class="code-collapse" open>
+    <summary>{{ with .Get "title" }}{{ . }}{{ else }}View Code{{ end }}</summary>
+    <div class="collapse-content">
+        {{ .Inner | markdownify }}
+    </div>
+</details>

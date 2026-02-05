@@ -23,7 +23,13 @@ I chose Zig for this challenge. Zig's characteristics—no hidden control flow o
 
 With the language chosen, I began by writing a simple naive implementation: 
 
-Once I built and tested the code on some provided unit tests, I was ready to run and benchmark the full 1 billion row file (14.8 gigabytes in size). I got the following result: `45.87s user, 21.68s system, 42% CPU, 2:37.11 total`. Let’s examine the code to figure out what I did and why the time is so slow:  
+Once I built and tested the code on some provided unit tests, I was ready to run and benchmark the full 1 billion row file (14.8 gigabytes in size). I got the following result: 
+
+`45.87s user, 21.68s system, 42% CPU, 2:37.11 total`. 
+
+Let’s examine the code to figure out what I did and why the time is so slow:  
+
+{{< collapse title="Iteration 1: Naive Zig Implementation" >}}
 ```zig
 const std = @import("std");
 
@@ -143,8 +149,8 @@ pub fn main() !void {
 
     print_measurements(measurement2, allocator) catch {};
 }
-
 ```
+{{< /collapse >}}
 
 The flow of the program is very simple. Open the file, read its contents into a byte array with an allocator, and parse it. The parser splits this giant byte array by “\n” and each subarray by “;”. I then use the city as a key to a hashmap, where the value is a struct, containing min, max, sum and count. At the end I get all the keys, sort them, and print their corresponding values. 
 
@@ -154,10 +160,13 @@ One way to reduce the system time here would be to use a concept in operating sy
 
 In a conventional file read system, the OS has to allocate a page (4kb in size), fetch those 4 kilobytes from the disk (program is blocked while this is happening) into the kernel page cache, and then copy that page into the user space. So if I am fetching a 15GB, I have to do ~ 4 million system calls, not to mention all OS level copying overhead. Plus modern SSDs love reading massive chunks consecutively. 
 
-In contrast, memory mapping (mmap) works by virtually mapping the disk address space into main memory. Reading a byte triggers a page fault and the OS goes to the disk and fills in the missing page. So if I am reading a 15gb file and I first open it, it won’t actually read a single byte from the disk. Only when I start parsing, will any reading happen. Additionally, giving the OS a hint, that the reading is sequential, will give it a much needed boost.   
+In a conventional file read, the OS fetches chunks from the disk into memory, but they first have to go into the kernel space, and only then copied to user space. 
+
+In contrast, memory mapping (mmap) works by virtually mapping the disk address space into main memory. Reading a byte from a page not in memory triggers a page fault and the OS goes to the disk (as opposed to a swap file in a regular demand paging page fault) to fetch it. This avoids that "copy" between the kernel and user space in a normal file read. 
 
 Adding the following code:  
 
+{{< collapse title="Iteration 2: Memory Mapping" >}}
 ```zig
 fn open_file(path: []const u8) ![]u8 {
     const file = try std.fs.cwd().openFile(path, .{ .mode = .read_only });
@@ -172,8 +181,12 @@ fn open_file(path: []const u8) ![]u8 {
     return contents;
 }
 ```
+{{< /collapse >}}
 
-Yields us enormous performance gains: `43.51s user, 2.79s system, 75% CPU, 1:01.57 total`
+Yields us enormous performance gains: 
+
+`43.51s user, 2.79s system, 75% CPU, 1:01.57 total`
+
 This is exactly what should happen. User time virtually unchanged while system time (how much the program waits on system calls) dropped by ~90%. Wonderful. 
 
 ## Iteration 3: Manual parsing
@@ -192,6 +205,7 @@ I can completely eliminate parse_float. By default, this func has to check for m
 Lastly, I am needlessly making two calls to the hashmap, one to check if an item exists, and another to fill/update it. Zig has a built-in function called getOrPut() which eliminates this double hash. The new code looks something like this: 
 
 
+{{< collapse title="Iteration 3: Manual Parsing & getOrPut" >}}
 ```zig
 fn parse_measurements(contents: []u8, allocator: std.mem.Allocator) !std.StringHashMap(measurement) {
     var measurements = std.StringHashMap(measurement).init(allocator);
@@ -243,8 +257,11 @@ fn parse_measurements(contents: []u8, allocator: std.mem.Allocator) !std.StringH
     return measurements;
 }
 ```
+{{< /collapse >}}
 
-These efforts produce an amazing jump in performance: `16.50s user, 2.74s system, 56% CPU, 33.910 total`
+These efforts produce an amazing jump in performance: 
+
+`16.50s user, 2.74s system, 56% CPU, 33.910 total`
 
 In fact, this is such a large jump in CPU efficiency that despite user time dropping by ~3x, CPU utilization went down significantly.
 
@@ -263,6 +280,7 @@ Linear probing is a technique for dealing with hash collisions. For example, if 
 As for the hash function, FNV-1 stood out to me for its simplicity, the fact that it has to loop over every byte in the given input, which can very easily be combined with the current parser.
 
 The new hash map: 
+{{< collapse title="Iteration 4: Custom Hash Map Implementation" >}}
 ```zig
 const MAP_SIZE = 65536;
 
@@ -307,8 +325,10 @@ const MyHashmap = struct {
     }
 };
 ```
+{{< /collapse >}}
 
 New parser logic: 
+{{< collapse title="Iteration 4: New Parser Logic" >}}
 ```zig
 while (i < contents.len) {
     const start = i;
@@ -336,13 +356,18 @@ while (i < contents.len) {
     i += 1;
     // put the new temp into the hashmap with key = h
 ```
+{{< /collapse >}}
 
-Implementing these changes, results in surprisingly small gains: `12.61s user, 2.74s system, 49% CPU, 30.958 total`
+Implementing these changes, results in surprisingly small gains: 
+
+`12.61s user, 2.74s system, 49% CPU, 30.958 total`
+
 User time is down significantly, as is CPU usage which means I am highly disk bound again.
 
 ## Iteration 5: Manual buffering
-I decided to remove mmap entirely and go back to manual buffering, this time using the latest zig reading interface and reading to a 8mb buffer. Mmap is a fundamentally reactive strategy where the OS fetches a page only when it needs to. This is great for databases where it does random reads and writes but not good enough to just go through one massive file once. 
+I decided to remove mmap entirely and go back to manual buffering, this time using the latest Zig reading interface and reading to a 8mb buffer. Mmap is a fundamentally reactive strategy where the OS fetches a page only when it needs to. This is great for databases with random reads and writes but not good enough to just go through one massive file once. 
 
+{{< collapse title="Iteration 5: Manual Buffering" >}}
 ```zig
 fn open_file(path: []const u8, alloc: std.mem.Allocator) ![]u8 {
     const file = try std.fs.cwd().openFile(path, .{ .mode = .read_only });
@@ -359,8 +384,11 @@ fn open_file(path: []const u8, alloc: std.mem.Allocator) ![]u8 {
     return contents;
 }
 ```
+{{< /collapse >}}
 
-The results after this change were very inconsistent. I often witnessed outright regression in performance, but sometimes getting very low times such as `12.16s user, 5.11s system, 79% CPU, 21.701 total`
+The results after this change were very inconsistent. I often witnessed outright regression in performance, but sometimes getting very low times such as 
+
+`12.16s user, 5.11s system, 79% CPU, 21.701 total`
 
 Experimenting with different buffer sizes and hash map sizes didn’t produce a meaningful difference. And the profiler couldn’t really tell me what was going wrong since it didn’t display system calls or what was happening in memory. 
 
@@ -371,6 +399,7 @@ I fixed this problem by interleaving reading and parsing. The program reads as m
 
 I refactored `main()` and removed `open_file()` for simplicity: 
 
+{{< collapse title="Iteration 6: Interleaved Chunk Reading" >}}
 ```zig
 pub fn main() !void {
     // ...... open file and create allocator
@@ -412,8 +441,11 @@ pub fn main() !void {
     try print_measurements(measurements, allocator);
 }
 ```
+{{< /collapse >}}
 
-The performance gains were immediately apparent: `11.84s user, 1.13s system, 98% CPU, 13.203 total`
+The performance gains were immediately apparent: 
+
+`11.84s user, 1.13s system, 98% CPU, 13.203 total`
 
 While user time didn’t go down that much, system time collapsed to about 1.1 seconds and CPU utilization shot up to 98% indicating that both the disk and the CPU were being used to the fullest. The only way to improve performance now is to dig into the algorithm and perform very specific optimizations.
 
@@ -422,6 +454,7 @@ While user time didn’t go down that much, system time collapsed to about 1.1 s
 ## Iteration 7: Removed branching 1
 I was able to shave off some time by reducing branching (if statements) when parsing the temperature. CPUs don't like branching as they execute instructinos out of order and branches make that tricky.
 
+{{< collapse title="Iteration 7: Branchless Temperature Parsing" >}}
 ```zig
 var temp: i32 = undefined;
     var negative = false;
@@ -443,17 +476,26 @@ var temp: i32 = undefined;
         i += 5; // digit digit '.' digit '\n'
     }
 ```
+{{< /collapse >}}
 
-New time was: `11.29s user, 1.31s system, 98% CPU, 12.843 total`
+New time was: 
+
+`11.29s user, 1.31s system, 98% CPU, 12.843 total`
+
 Not a meaningful increase, but still heading in the right direction. 
 
 
 ## Iteration 8: Removed branching 2
-Keeping with the same theme, I removed the min and max if statements with built in @min and @max zig directives which also remove branching: `11.12s user 1.29s system 96% CPU 12.822 total`
+Keeping with the same theme, I removed the min and max if statements with built in @min and @max zig directives which also remove branching: 
+
+`11.12s user 1.29s system 96% CPU 12.822 total`
+
 ALso didn’t produce any meaningful performance gain. Once again, the bottleneck continued to be in the parse_chuck function but it was difficult to benchmark and profile due to the fact that the profiler couldn’t tell me which line was doing what. 
 
 ## Iteration 8.1: Reduced runtime safety
-I was able to shave off half a second by adding the `@setRuntimeSafety(false);` for the parse_chunk flag: `10.97s user 1.29s system 98% CPU 12.443 total`
+I was able to shave off half a second by adding the `@setRuntimeSafety(false);` for the parse_chunk flag: 
+
+`10.97s user 1.29s system 98% CPU 12.443 total`
 
 
 ## Iteration 9: Faster semicolon detection + better hash function
@@ -467,6 +509,7 @@ I was able to rewrite the city parsing logic to both find the “;” delimiter 
 
 As for the hash function, I used Wyhash, which is the default hash used in Zig. Wyhash is based on the [Wyhash project on GitHub](https://github.com/wangyi-fudan/wyhash). In this implementation, the custom hash logic is interleaved with the delimiter search to improve execution speed.
 
+{{< collapse title="Iteration 9: Optimized Combined Hash/Scan Loop" >}}
 ```zig
 fn parse_chunk(contents: []u8, measurements: *MyHashmap) !void {
     @setRuntimeSafety(false);
@@ -518,10 +561,13 @@ fn parse_chunk(contents: []u8, measurements: *MyHashmap) !void {
 
         //.....continue to parsing temperature
 ```
+{{< /collapse >}}
 
 Note how the hashing and parsing are tightly interleaved.
 
-The end result is a ~15% reduction in user time: `9.34s user, 1.35s system, 98% CPU, 10.867 total`
+The end result is a ~15% reduction in user time: 
+
+`9.34s user, 1.35s system, 98% CPU, 10.867 total`
 
 Final call stack: 
 
@@ -531,7 +577,7 @@ Execution times:
 
 {{< photo src="blog_2/execution_time.png" alt="chart" >}}
 
-
+f
 I decided to stop here. I had a lot of fun making this program. It felt really good to finally pass all tests and then get a significant time reduction. With that being said, it was incredibly annoying to make iteration 9 work as debugging bitwise operations is a nightmare. Everything before that was frailty straightforward and in my view is more than enough for any task where performance is not the absolute highest priority. 
 
 Repository: https://github.com/AlexG28/zig_1brc
