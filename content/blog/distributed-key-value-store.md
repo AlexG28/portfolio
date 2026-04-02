@@ -1,7 +1,7 @@
 +++
 date = '2025-08-18T18:55:47-04:00'
 draft = false
-title = 'Distributed Key Value Store'
+title = 'Building a Distributed Key Value Store'
 +++
 
 
