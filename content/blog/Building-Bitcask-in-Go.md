@@ -5,8 +5,7 @@ title = 'Building Bitcask in Go: Architecture, Concurrency and Benchmarks'
 +++
 
 
-Lets build a simple database in Go and learn as much as we can from the experience! Bitcask is a famous write-optimized database architecture that is fairly simple to impelment. Lets also make it highly concurrent and measure what we've achieved. 
-
+I want to build a simple databse in Go and learn as much as I can from the experience. I've chosen to implement the Bitcask architecture, a simple write-oriented design. [Repo](https://github.com/AlexG28/Bitcask)
 
 #### Architecture
 
@@ -100,4 +99,4 @@ I have many ideas as to how to improve performance further:
 #### Sources 
 
 [Bitcask](https://riak.com/assets/bitcask-intro.pdf)
-
+[Repo](https://github.com/AlexG28/Bitcask)
