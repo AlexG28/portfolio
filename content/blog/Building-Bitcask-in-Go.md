@@ -17,13 +17,42 @@ This architecture allows for extremely fast writes (every write points to exactl
 
 #### Concurrency model
 
-I took extra care to focus on concurrency for this project. In building high performance systems, it is crucial to follow strict principles when designing highly concurrent systems such as this. These princples include locking shared resources, using queues and using go’s built in primitives such as select statements, to organize the path of execution. 
+I took extra care to focus on concurrency for this project. In building high performance systems, it is crucial to follow strict principles such as locking shared resources, using queues and using Go’s built in primitives such as select statements, to organize the path of execution. 
 
-In my implementation, there are 2 core areas where resource contention is possible. Firstly, two operations, notably a write and a read, could try to read from the topmost file at the same time. Two reads from any other file are not a problem since they don’t interfere with each other and writes only happen at the very top file. Hence, go’s `RWMutex` (read-write mutex) comes extremely handy, allowing to make this distinctiion easily. Every opened file object is directly tied to such a mutex via the `segment` struct. 
+In my implementation, there are 2 core domains where resource contention is possible. Firstly, two operations, notably a write and a read, could try to read from the topmost file at the same time. Two reads from any other file are not a problem since they don’t interfere with each other and writes only happen at the very top file. Hence, Go’s `RWMutex` (read-write mutex) comes extremely handy, allowing me to make this distinctiion easily. Every opened file object is directly tied to such a mutex via the `segment` struct. 
 
 Secondly, the main hashmap (key to `EntryLocation`) could be contended for, both by reads, writes and merges. Therefore, access to this map is locked behind another RWMutex. The `get()` showcases the logic behind this clearly: the lock for the map has to be acquired, and only then can the file header for that entrys location be opened. Then the file lock has to be acquired. After which the map lock is released as this thread continues to executed on the file read. This illustrates the two layers of locks necessary for every opation. 
 
 The merge step is by far the most complicated step due to the amount of steps it has to perform. Merge has to perform the following steps: 1. lock the entire hashmap for both reading and writing 2. iterate over every entry in it 3. fetch the value from the previous files 4. write them to new temporary files and update in a new hashmap and lastly 5. switch the old hashmap with the new hashmap and old file pointers to new file pointers, thereby completing the rotation. The bottleneck here is that merge needs the full read-write lock on the hashmap which means writes are impossible for the duration of the merge.
+
+#### Code example 
+
+{{< collapse title="set function" >}}
+```go
+func (l *Log) get(key []byte) (Entry, error) {
+	l.stateMu.RLock()
+	val, ok := l.mapping[string(key)]
+	if !ok {
+		l.stateMu.RUnlock()
+		return Entry{}, ErrKeyNotFound
+	}
+
+	seg := &l.files[val.File_id]
+	fileLock := &seg.mu
+	fileLock.RLock()
+	l.stateMu.RUnlock()
+
+	entry, err := getFromDisk(seg.file, val)
+	fileLock.RUnlock()
+	if err != nil {
+		return Entry{}, fmt.Errorf("failed to read from disk: %w", err)
+	}
+	return entry, nil
+}
+```
+{{< /collapse >}}
+
+This code snippet above illustrates the two doman lock system. To retrieve a value based on a key, `statemu` is locked until the correct file is found. Once the file is found, its own lock (`fileLock`) is acquired and only then is `stateMu` released.
 
 #### Testing
 
@@ -39,50 +68,9 @@ The benchmark setup was:
 - Bitcask running on localhost:8080 versus a Redis docker contair running locally
 - 128 byte values, 4 threads, 50 clients. 
 
-Write Benchmarks for Bitcask: 
-```markdown
-============================================================================================================
-Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p99 Latency       KB/sec
-------------------------------------------------------------------------------------------------------------
-Sets        86456.79          ---          ---         2.31681         1.19100         4.86300     14597.00
-Gets            0.00         0.00         0.00             ---             ---             ---         0.00
-Waits           0.00          ---          ---             ---             ---             ---          ---
-Totals      86456.79         0.00         0.00         2.31681         1.19100         4.86300     14597.00
-```
+Results: 
 
-Write Benchmarks for Redis:
-```markdown
-============================================================================================================
-Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p50 Latency     p99 Latency       KB/sec
-------------------------------------------------------------------------------------------------------------
-Sets        95774.35          ---          ---         2.10580         1.97500         4.31900     16170.14
-Gets            0.00         0.00         0.00             ---             ---             ---         0.00
-Waits           0.00          ---          ---             ---             ---             ---          ---
-Totals      95774.35         0.00         0.00         2.10580         1.97500         4.31900     16170.14
-```
-
-Read Benchmarks for Bitcask:
-```markdown
-============================================================================================================================================
-Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p25 Latency     p50 Latency     p75 Latency     p99 Latency       KB/sec
---------------------------------------------------------------------------------------------------------------------------------------------
-Sets            0.00          ---          ---             ---             ---             ---             ---             ---         0.00
-Gets       110852.52    110852.52         0.00         1.80393         1.60700         1.76700         1.90300         3.39100     18174.81
-Waits           0.00          ---          ---             ---             ---             ---             ---             ---          ---
-Totals     110852.52    110852.52         0.00         1.80393         1.60700         1.76700         1.90300         3.39100     18174.81
-```
-
-Read Benchmarks for Redis:
-```markdown
-============================================================================================================================================
-Type         Ops/sec     Hits/sec   Misses/sec    Avg. Latency     p25 Latency     p50 Latency     p75 Latency     p99 Latency       KB/sec
---------------------------------------------------------------------------------------------------------------------------------------------
-Sets            0.00          ---          ---             ---             ---             ---             ---             ---         0.00
-Gets        86670.81     86670.81         0.00         2.30735         1.75100         2.03100         2.49500         4.63900     14209.87
-Waits           0.00          ---          ---             ---             ---             ---             ---             ---          ---
-Totals      86670.81     86670.81         0.00         2.30735         1.75100         2.03100         2.49500         4.63900     14209.87
-
-```
+{{< photo src="blog_3/benchmark_chart.png" alt="Bitcask diagram" >}}
 
 While the two systems are not comparable, it is still interesting to compare their stats. My Bitcask is able to achieve almost 87k writes and over 110k reads per second, very comparable with Redis’ 95k and 87k respectively. Latency numbers are also very comparable with Bitcask being slower at writes but faster at reads. 
 
@@ -97,6 +85,6 @@ I have many ideas as to how to improve performance further:
 
 
 #### Sources 
-
 [Bitcask](https://riak.com/assets/bitcask-intro.pdf)
+
 [Repo](https://github.com/AlexG28/Bitcask)
