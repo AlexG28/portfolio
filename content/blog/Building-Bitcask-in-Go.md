@@ -70,7 +70,7 @@ The benchmark setup was:
 
 Results: 
 
-{{< photo src="blog_3/benchmark_chart.png" alt="Bitcask diagram" >}}
+{{< photo src="blog_3/benchmark_charts.png" alt="Bitcask performance" >}}
 
 Overall, I am happy with the performance of my Bitcask implementation. While it supports significantly less features than real Redis, it doesn't run in memory, but on disk and despite this, I get faster reads with lower latencies, while being very competitive on writes. 
 
