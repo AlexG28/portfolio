@@ -72,7 +72,7 @@ Results:
 
 {{< photo src="blog_3/benchmark_chart.png" alt="Bitcask diagram" >}}
 
-While the two systems are not comparable, it is still interesting to compare their stats. My Bitcask is able to achieve almost 87k writes and over 110k reads per second, very comparable with Redis’ 95k and 87k respectively. Latency numbers are also very comparable with Bitcask being slower at writes but faster at reads. 
+Overall, I am happy with the performance of my Bitcask implementation. While it supports significantly less features than real Redis, it doesn't run in memory, but on disk and despite this, I get faster reads with lower latencies, while being very competitive on writes. 
 
 #### Room for improvement
 
