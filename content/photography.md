@@ -19,9 +19,6 @@ title = 'Photography'
 {{< photo src="images/sunset.jpg" alt="Lake Wilcox" >}}
     </div>
     <div class="gallery-item">
-{{< photo src="images/manhattan.jpg" alt="Empire State from Rockefeller Center" >}}
-    </div>
-    <div class="gallery-item">
 {{< photo src="images/new_york.jpg" alt="Midtown from Brooklyn Bridge" >}}
     </div>
     <div class="gallery-item">
