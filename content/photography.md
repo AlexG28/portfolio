@@ -10,16 +10,19 @@ title = 'Photography'
 {{< photo src="images/cliffs.jpg" alt="Lion's Head lookout, Bruce Peninsula" >}}
     </div>
     <div class="gallery-item">
-{{< photo src="images/desert.jpg" alt="Desert an hour's drive from Dubai" >}}
-    </div>
-    <div class="gallery-item">
-{{< photo src="images/dubai.jpg" alt="Dubai from Palm Jumeirah" >}}
+{{< photo src="images/cn_tower.jpg" alt="CN Tower, Toronto" >}}
     </div>
     <div class="gallery-item">
 {{< photo src="images/sunset.jpg" alt="Lake Wilcox" >}}
     </div>
     <div class="gallery-item">
 {{< photo src="images/new_york.jpg" alt="Midtown from Brooklyn Bridge" >}}
+    </div>
+    <div class="gallery-item">
+{{< photo src="images/dubai.jpg" alt="Dubai from Palm Jumeirah" >}}
+    </div>
+    <div class="gallery-item">
+{{< photo src="images/portugal_cliffs.jpg" alt="Coastal cliffs, Portugal" >}}
     </div>
     <div class="gallery-item">
 {{< photo src="images/night_sky.jpg" alt="Our home galaxy, Algonquin Park" >}}
@@ -34,13 +37,10 @@ title = 'Photography'
 {{< photo src="images/bus.jpg" alt="Vintage bus" >}}
     </div>
     <div class="gallery-item">
-{{< photo src="images/cn_tower.jpg" alt="CN Tower, Toronto" >}}
-    </div>
-    <div class="gallery-item">
 {{< photo src="images/ice_on_lake.jpg" alt="Ice on the lake" >}}
     </div>
     <div class="gallery-item">
-{{< photo src="images/portugal_cliffs.jpg" alt="Coastal cliffs, Portugal" >}}
+{{< photo src="images/desert.jpg" alt="Desert an hour's drive from Dubai" >}}
     </div>
   </div>
 </div>
