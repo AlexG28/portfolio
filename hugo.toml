@@ -36,7 +36,7 @@ url = "https://github.com/AlexG28"
 name = "Resume"
 icon = "fa-solid fa-file-pdf fa-2x"
 weight = 5
-url = "/resume/main_resume_jake_.pdf"
+url = "/resume/aleksandr_resume.pdf"
        
 
 [params]
