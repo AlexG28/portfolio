@@ -1,19 +1,21 @@
 +++
-date = '2025-07-28T15:21:52-04:00'
+date = '2026-07-04T15:21:52-04:00'
 draft = false
 title = 'About'
 +++
 
-hi there! 
+Education:
 
-I recently finished my Bachelors of Science in Computer Science at Toronto Metropolitan University.
+- Computer Science at Toronto Metropolitan University.
 
-I am currently working at LDA Technologies, where I am developing internal tooling to help my coworkers and customers have a beautiful and intuitive user experience with our products.
+Experience: 
 
-I have 16 months of internship experience at Geotab, split over two teams and two projects. 
+- 9 months of building great abstractions at [LDA Technologies](https://www.ldatech.com/). Built new dev APIs, rewrote flashing utilities, setup local llm inference, and updated testing infra. Go and Python. 
 
-My strongest languages are Go, Python and Java although I am currently learning Zig and maybe Rust in the near future.  
+- 16-month internship at [Geotab](https://www.geotab.com/). Built internal tooling to speed up vehicle signal generation as well as maintain 500+ rps backend infrastructure. Python and .Net. 
 
-In my free time, I like to explore concepts related to distributed systems. You can read about some of my learnings and side projects on [my blog](/blog).
+Passions: 
 
-Some of my current interests and hobbies include following the AI industry, running, watching UFC and F1, [photography](/photography) and travel. 
+- really enjoy distributed systems, building great infrastructure, and writing performance-sensitive code
+- in my free time, I like to travel, do photography, train for HYROX/half-marathon races and follow AI/space/technology news
+- check out my [blog](/blog) and [photography](/photography)
